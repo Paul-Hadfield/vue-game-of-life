@@ -9,12 +9,22 @@ export default {
   components: { Grid },
   created() {
     if (this.grid == null) {
-      this.grid = GameEngine.setupBlinker();
+      this.grid = GameEngine.setupPulsar();
     }
+    this.timer = setInterval(() => {
+      this.grid = this.grid.map(cell =>
+        GameEngine.determineNewState(cell, this.grid)
+      );
+    }, 1000);
+  },
+  beforeDestroy() {
+    console.log("destroy");
+    clearInterval(this.timer);
   },
   data() {
     return {
-      grid: null
+      grid: null,
+      data: {}
     };
   }
 };

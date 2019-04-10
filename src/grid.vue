@@ -1,6 +1,6 @@
 <template>
   <div v-if="this.gameGrid" class="grid">
-    <div v-for="(cell, index) in this.gameGrid" :key="index">{{index+1}}</div>
+    <div v-for="(cell, index) in this.gameGrid" :key="index">{{index+1}} - {{cell.live}}</div>
   </div>
 </template>
 
