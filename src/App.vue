@@ -1,12 +1,27 @@
 <template>
-  <div id="app">
-    Hello, world!
-  </div>
+  <Grid :gameGrid="this.grid"/>
 </template>
-
+<script>
+import GameEngine from "../gameengine";
+import Grid from "./grid.vue";
+export default {
+  name: "app",
+  components: { Grid },
+  created() {
+    if (this.grid == null) {
+      this.grid = GameEngine.setupBlinker();
+    }
+  },
+  data() {
+    return {
+      grid: null
+    };
+  }
+};
+</script>
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
