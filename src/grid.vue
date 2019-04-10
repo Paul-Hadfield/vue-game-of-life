@@ -1,5 +1,7 @@
 <template>
-  <div>My Grid {{this.gameGrid.length}}</div>
+  <div v-if="this.gameGrid" class="grid">
+    <div v-for="(cell, index) in this.gameGrid" :key="index">{{index+1}}</div>
+  </div>
 </template>
 
 <script>
