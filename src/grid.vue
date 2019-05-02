@@ -1,18 +1,15 @@
 <template>
   <div v-if="this.gameGrid" class="grid">
-    <div v-for="(cell, index) in this.gameGrid" :key="index" :style="cellStyle(cell.live)"></div>
+    <Cell v-for="(cell, index) in this.gameGrid" :key="index" :isLive="cell.live"/>
   </div>
 </template>
 
 <script>
+import Cell from "./cell.vue";
 export default {
   name: "Grid",
-  props: ["gameGrid"],
-  methods: {
-    cellStyle(isLive) {
-      return { backgroundColor: isLive ? "black" : "white" };
-    }
-  }
+  components: { Cell },
+  props: ["gameGrid"]
 };
 </script>
 
