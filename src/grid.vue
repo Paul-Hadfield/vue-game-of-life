@@ -1,6 +1,6 @@
 <template>
   <div v-if="this.gameGrid" class="grid">
-    <div v-for="(cell, index) in this.gameGrid" :key="index">{{index+1}} - {{cell.live}}</div>
+    <div v-for="(cell, index) in this.gameGrid" :key="index">{{cell.live}}</div>
   </div>
 </template>
 
@@ -12,6 +12,15 @@ export default {
 </script>
 
 <style scoped>
+.grid {
+  margin: 50px auto;
+  border: solid 2px;
+  display: grid;
+  grid-gap: 0px;
+  width: 250px;
+  grid-template-columns: repeat(5, 50px);
+  grid-template-rows: repeat(5, 50px);
+}
 </style>
 
 
