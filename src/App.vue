@@ -9,7 +9,7 @@ export default {
   components: { Grid },
   created() {
     if (this.grid == null) {
-      this.grid = GameEngine.setupPulsar();
+      this.grid = GameEngine.setupBlinker();
     }
     this.timer = setInterval(() => {
       this.grid = this.grid.map(cell =>
