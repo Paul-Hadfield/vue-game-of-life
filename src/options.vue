@@ -84,16 +84,16 @@
 </template>
 <script>
 export default {
-  props: ["pattern"],
+  props: ['pattern'],
   methods: {
     restartClicked(event) {
-      this.$emit("restartClicked");
+      this.$emit('restartClicked');
       event.stopPropagation();
     },
     typeChanged(event) {
-      this.$emit("typeChanged", event.path[0].value);
-    }
-  }
+      this.$emit('typeChanged', event.path[0].value);
+    },
+  },
 };
 </script>
 <style scoped>
