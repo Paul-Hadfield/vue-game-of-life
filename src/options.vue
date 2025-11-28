@@ -91,7 +91,8 @@ export default {
       event.stopPropagation();
     },
     typeChanged(event) {
-      this.$emit('typeChanged', event.path[0].value);
+      const { value } = event.target;
+      this.$emit('typeChanged', value);
     },
   },
 };

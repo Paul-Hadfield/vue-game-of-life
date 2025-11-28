@@ -4,7 +4,7 @@
     <Options
       @restartClicked="handleRestartClicked"
       @typeChanged="handleTypeChanged"
-      pattern="random"
+      :pattern="pattern"
     />
   </div>
 </template>
@@ -12,7 +12,6 @@
 import GameEngine from "../gameengine";
 import Grid from "./grid.vue";
 import Options from "./options.vue";
-import { log } from "util";
 
 export default {
   name: "app",
@@ -21,7 +20,7 @@ export default {
     console.log("Created");
 
     if (this.grid == null) {
-      this.grid = this.populateGrid("blinker");
+      this.resetGrid();
     }
     this.timer = setInterval(() => {
       this.grid = this.grid.map(cell =>
@@ -36,17 +35,21 @@ export default {
   data() {
     return {
       grid: null,
-      restartKey: 0
+      restartKey: 0,
+      pattern: "blinker"
     };
   },
   methods: {
-    handleRestartClicked() {
-      this.grid = this.populateGrid(pattern);
+    resetGrid() {
+      this.grid = this.populateGrid(this.pattern);
       this.restartKey++;
     },
+    handleRestartClicked() {
+      this.resetGrid();
+    },
     handleTypeChanged(pattern) {
-      this.grid = this.populateGrid(pattern);
-      this.restartKey++;
+      this.pattern = pattern;
+      this.resetGrid();
     },
     populateGrid(pattern) {
       switch (pattern) {
@@ -82,6 +85,5 @@ export default {
   text-align: center;
 }
 </style>
-
 
 
