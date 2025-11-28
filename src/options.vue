@@ -82,21 +82,31 @@
     <button type="button" @click="restartClicked">Restart</button>
   </form>
 </template>
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, type PropType } from 'vue';
+
+export default defineComponent({
   name: 'PatternOptions',
-  props: ['pattern'],
+  props: {
+    pattern: {
+      type: String as PropType<string>,
+      required: true,
+    },
+  },
+  emits: ['restartClicked', 'typeChanged'],
   methods: {
-    restartClicked(event) {
+    restartClicked(event: MouseEvent) {
       this.$emit('restartClicked');
       event.stopPropagation();
     },
-    typeChanged(event) {
-      const { value } = event.target;
-      this.$emit('typeChanged', value);
+    typeChanged(event: Event) {
+      const target = event.target as HTMLInputElement | null;
+      if (target) {
+        this.$emit('typeChanged', target.value);
+      }
     },
   },
-};
+});
 </script>
 <style scoped>
 form {

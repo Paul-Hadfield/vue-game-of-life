@@ -1,16 +1,23 @@
 <template>
   <div class="cell" :style="cellStyle" />
 </template>
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, type PropType } from 'vue';
+
+export default defineComponent({
   name: 'GameCell',
-  props: ['isLive'],
+  props: {
+    isLive: {
+      type: Boolean as PropType<boolean>,
+      required: true,
+    },
+  },
   computed: {
-    cellStyle() {
+    cellStyle(): Record<string, string> {
       return { backgroundColor: this.isLive ? 'black' : 'white' };
     },
   },
-};
+});
 </script>
 <style>
 .cell {

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Grid :gameGrid="this.grid" :key="restartKey" />
+    <Grid :gameGrid="grid" :key="restartKey" />
     <Options
       @restartClicked="handleRestartClicked"
       @typeChanged="handleTypeChanged"
@@ -8,18 +8,31 @@
     />
   </div>
 </template>
-<script>
-import GameEngine from '../gameengine';
+<script lang="ts">
+import { defineComponent } from 'vue';
+import GameEngine from './gameengine';
 import Grid from './grid.vue';
 import Options from './options.vue';
 
-export default {
+export type Cell = {
+  x: number;
+  y: number;
+  live: boolean;
+};
+
+export default defineComponent({
   name: 'app',
   components: { Grid, Options },
+  data() {
+    return {
+      grid: [] as Cell[],
+      restartKey: 0,
+      pattern: 'blinker',
+      timer: null as ReturnType<typeof setInterval> | null,
+    };
+  },
   created() {
-    console.log('Created');
-
-    if (this.grid == null) {
+    if (!this.grid.length) {
       this.resetGrid();
     }
     this.timer = setInterval(() => {
@@ -27,15 +40,9 @@ export default {
     }, 1000);
   },
   beforeUnmount() {
-    console.log('destroy');
-    clearInterval(this.timer);
-  },
-  data() {
-    return {
-      grid: null,
-      restartKey: 0,
-      pattern: 'blinker',
-    };
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   },
   methods: {
     resetGrid() {
@@ -45,11 +52,11 @@ export default {
     handleRestartClicked() {
       this.resetGrid();
     },
-    handleTypeChanged(pattern) {
+    handleTypeChanged(pattern: string) {
       this.pattern = pattern;
       this.resetGrid();
     },
-    populateGrid(pattern) {
+    populateGrid(pattern: string): Cell[] {
       switch (pattern) {
         case 'blinker':
           return GameEngine.setupBlinker();
@@ -68,7 +75,7 @@ export default {
       }
     },
   },
-};
+});
 </script>
 <style>
 #app,

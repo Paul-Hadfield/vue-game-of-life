@@ -1,18 +1,25 @@
 <template>
-  <div v-if="this.gameGrid" class="grid" :style="gridStyle">
-    <Cell v-for="(cell, index) in this.gameGrid" :key="index" :isLive="cell.live" />
+  <div v-if="gameGrid" class="grid" :style="gridStyle">
+    <Cell v-for="(cell, index) in gameGrid" :key="index" :isLive="cell.live" />
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent, type PropType } from 'vue';
 import Cell from './cell.vue';
+import type { Cell as CellType } from './gridsetup';
 
-export default {
+export default defineComponent({
   name: 'GameGrid',
   components: { Cell },
-  props: ['gameGrid'],
+  props: {
+    gameGrid: {
+      type: Array as PropType<CellType[]>,
+      required: true,
+    },
+  },
   computed: {
-    gridDimensions() {
+    gridDimensions(): { rows: number; cols: number } {
       return this.gameGrid.reduce(
         (acc, cell) => ({
           rows: Math.max(acc.rows, cell.y),
@@ -21,8 +28,11 @@ export default {
         { rows: 0, cols: 0 },
       );
     },
-    gridStyle() {
+    gridStyle(): Record<string, string> {
       const { rows, cols } = this.gridDimensions;
+      if (!rows || !cols) {
+        return {};
+      }
       const viewportWidth = window.innerWidth - 100;
       const viewportHeight = window.innerHeight;
 
@@ -43,7 +53,7 @@ export default {
       };
     },
   },
-};
+});
 </script>
 
 <style scoped>
