@@ -1,167 +1,83 @@
-/* eslint-disable no-param-reassign, eqeqeq */
+const coordinateKey = (x, y) => `${x},${y}`;
 
-function buildEmptyGrid(cols, rows) {
-  let x = 1;
-  let y = 1;
+const createLiveChecker = (liveCoordinates) => {
+  const liveSet = new Set(liveCoordinates.map(([x, y]) => coordinateKey(x, y)));
+  return (x, y) => liveSet.has(coordinateKey(x, y));
+};
 
-  const numberOfCells = rows * cols;
-
+const buildGrid = (cols, rows, isLive) => {
   const grid = [];
-
-  const Util = {
-    range: (min, max) => Array.from({ length: max - min + 1 }, (_, i) => min + i),
-  };
-
-  Util.range(1, numberOfCells).forEach(() => {
-    grid.push({ x, y, live: false });
-
-    // eslint-disable-next-line no-plusplus
-    x++;
-
-    if (x > cols) {
-      // eslint-disable-next-line no-plusplus
-      x = 1; y++;
+  for (let y = 1; y <= rows; y += 1) {
+    for (let x = 1; x <= cols; x += 1) {
+      grid.push({ x, y, live: isLive(x, y) });
     }
-  });
-
+  }
   return grid;
-}
+};
 
-const getRandomIntInclusive = (min, max) => {
-  const minFloored = Math.ceil(min);
-  const maxFloored = Math.floor(max);
-  return Math.floor(
-    Math.random(minFloored)
-    * (maxFloored - minFloored + 1),
-  ) + minFloored; // The maximum is inclusive and the minimum is inclusive
+const range = (start, end) => {
+  const values = [];
+  for (let i = start; i <= end; i += 1) {
+    values.push(i);
+  }
+  return values;
+};
+
+const addBlock = (xs, ys) => {
+  const coords = [];
+  xs.forEach((x) => ys.forEach((y) => coords.push([x, y])));
+  return coords;
 };
 
 const GridSetup = {
   blinker: () => {
-    const grid = buildEmptyGrid(5, 5);
-
-    grid
-      .filter((c) => c.x >= 2 && c.x <= 4)
-      .filter((c) => c.y === 3)
-      .forEach((cell) => { cell.live = true; });
-
-    return grid;
+    const liveCoords = addBlock(range(2, 4), [3]);
+    return buildGrid(5, 5, createLiveChecker(liveCoords));
   },
   toad: () => {
-    const grid = buildEmptyGrid(6, 6);
-
-    grid
-      .filter((c) => c.x >= 2 && c.x <= 4)
-      .filter((c) => c.y === 3)
-      .forEach((cell) => { cell.live = true; });
-    grid
-      .filter((c) => c.x >= 3 && c.x <= 5)
-      .filter((c) => c.y === 4)
-      .forEach((cell) => { cell.live = true; });
-
-    return grid;
+    const liveCoords = [
+      ...addBlock(range(2, 4), [3]),
+      ...addBlock(range(3, 5), [4]),
+    ];
+    return buildGrid(6, 6, createLiveChecker(liveCoords));
   },
   beacon: () => {
-    const grid = buildEmptyGrid(6, 6);
-
-    grid
-      .filter((c) => c.x === 2 || c.x === 3)
-      .filter((c) => c.y === 2 || c.y === 3)
-      .forEach((cell) => { cell.live = true; });
-    grid
-      .filter((c) => c.x === 4 || c.x === 5)
-      .filter((c) => c.y === 4 || c.y === 5)
-      .forEach((cell) => { cell.live = true; });
-
-    return grid;
+    const liveCoords = [
+      ...addBlock([2, 3], [2, 3]),
+      ...addBlock([4, 5], [4, 5]),
+    ];
+    return buildGrid(6, 6, createLiveChecker(liveCoords));
   },
   pulsar: () => {
-    const grid = buildEmptyGrid(17, 17);
-
-    grid
-      .filter((c) => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 3))
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 8))
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 10))
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 15))
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 3))
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 8))
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 10))
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 15))
-      .forEach((cell) => { cell.live = true; });
-
-    return grid;
+    const liveCoords = [
+      ...addBlock([5, 6, 7, 11, 12, 13], [3, 8, 10, 15]),
+      ...addBlock([3, 8, 10, 15], [5, 6, 7, 11, 12, 13]),
+    ];
+    return buildGrid(17, 17, createLiveChecker(liveCoords));
   },
-  random: () => {
-    const grid = buildEmptyGrid(50, 50);
-
-    grid.forEach((cell) => { cell.live = getRandomIntInclusive(0, 100) > 66; });
-
-    return grid;
-  },
+  random: () => buildGrid(
+    50,
+    50,
+    () => Math.random() > 0.66,
+  ),
   acorn: () => {
-    const grid = buildEmptyGrid(9, 5);
-
-    grid
-      .filter((c) => (c.x >= 2 && c.x <= 3) && c.y === 4)
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => (c.x >= 6 && c.x <= 8) && c.y === 4)
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => c.x === 3 && c.y === 2)
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => c.x === 5 && c.y === 3)
-      .forEach((cell) => { cell.live = true; });
-
-    return grid;
+    const liveCoords = [
+      ...addBlock(range(2, 3), [4]),
+      ...addBlock(range(6, 8), [4]),
+      [3, 2],
+      [5, 3],
+    ];
+    return buildGrid(9, 5, createLiveChecker(liveCoords));
   },
   diehard: () => {
-    const grid = buildEmptyGrid(10, 5);
-
-    grid
-      .filter((c) => (c.x >= 7 && c.x <= 9) && c.y === 4)
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => c.x === 8 && c.y === 2)
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => (c.x >= 2 && c.x <= 3) && c.y == 3)
-      .forEach((cell) => { cell.live = true; });
-
-    grid
-      .filter((c) => c.x === 3 && c.y === 4)
-      .forEach((cell) => { cell.live = true; });
-
-    return grid;
+    const liveCoords = [
+      ...addBlock(range(7, 9), [4]),
+      ...addBlock(range(2, 3), [3]),
+      [8, 2],
+      [3, 4],
+    ];
+    return buildGrid(10, 5, createLiveChecker(liveCoords));
   },
 };
 
 export default GridSetup;
-/* eslint-disable no-param-reassign, eqeqeq */
