@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Grid :gameGrid="this.grid" :key="restartKey"/>
+    <Grid :gameGrid="this.grid" :key="restartKey" />
     <Options
       @restartClicked="handleRestartClicked"
       @typeChanged="handleTypeChanged"
@@ -9,40 +9,38 @@
   </div>
 </template>
 <script>
-import GameEngine from "../gameengine";
-import Grid from "./grid.vue";
-import Options from "./options.vue";
+import GameEngine from '../gameengine';
+import Grid from './grid.vue';
+import Options from './options.vue';
 
 export default {
-  name: "app",
+  name: 'app',
   components: { Grid, Options },
   created() {
-    console.log("Created");
+    console.log('Created');
 
     if (this.grid == null) {
       this.resetGrid();
     }
     this.timer = setInterval(() => {
-      this.grid = this.grid.map(cell =>
-        GameEngine.determineNewState(cell, this.grid)
-      );
+      this.grid = this.grid.map((cell) => GameEngine.determineNewState(cell, this.grid));
     }, 1000);
   },
-  beforeDestroy() {
-    console.log("destroy");
+  beforeUnmount() {
+    console.log('destroy');
     clearInterval(this.timer);
   },
   data() {
     return {
       grid: null,
       restartKey: 0,
-      pattern: "blinker"
+      pattern: 'blinker',
     };
   },
   methods: {
     resetGrid() {
       this.grid = this.populateGrid(this.pattern);
-      this.restartKey++;
+      this.restartKey += 1;
     },
     handleRestartClicked() {
       this.resetGrid();
@@ -53,23 +51,23 @@ export default {
     },
     populateGrid(pattern) {
       switch (pattern) {
-        case "blinker":
+        case 'blinker':
           return GameEngine.setupBlinker();
-        case "toad":
+        case 'toad':
           return GameEngine.setupToad();
-        case "beacon":
+        case 'beacon':
           return GameEngine.setupBeacon();
-        case "pulsar":
+        case 'pulsar':
           return GameEngine.setupPulsar();
-        case "acorn":
+        case 'acorn':
           return GameEngine.setupAcorn();
-        case "diehard":
+        case 'diehard':
           return GameEngine.setupDiehard();
         default:
           return GameEngine.setupRandom();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style>
@@ -85,5 +83,3 @@ export default {
   text-align: center;
 }
 </style>
-
-

@@ -79,11 +79,12 @@
         <label for="random">Random</label>
       </div>
     </div>
-    <button @click="restartClicked">Restart</button>
+    <button type="button" @click="restartClicked">Restart</button>
   </form>
 </template>
 <script>
 export default {
+  name: 'PatternOptions',
   props: ['pattern'],
   methods: {
     restartClicked(event) {

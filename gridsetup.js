@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign, eqeqeq */
+
 function buildEmptyGrid(cols, rows) {
   let x = 1;
   let y = 1;
@@ -39,8 +41,8 @@ const GridSetup = {
     const grid = buildEmptyGrid(5, 5);
 
     grid
-      .filter(c => c.x >= 2 && c.x <= 4)
-      .filter(c => c.y === 3)
+      .filter((c) => c.x >= 2 && c.x <= 4)
+      .filter((c) => c.y === 3)
       .forEach((cell) => { cell.live = true; });
 
     return grid;
@@ -49,12 +51,12 @@ const GridSetup = {
     const grid = buildEmptyGrid(6, 6);
 
     grid
-      .filter(c => c.x >= 2 && c.x <= 4)
-      .filter(c => c.y === 3)
+      .filter((c) => c.x >= 2 && c.x <= 4)
+      .filter((c) => c.y === 3)
       .forEach((cell) => { cell.live = true; });
     grid
-      .filter(c => c.x >= 3 && c.x <= 5)
-      .filter(c => c.y === 4)
+      .filter((c) => c.x >= 3 && c.x <= 5)
+      .filter((c) => c.y === 4)
       .forEach((cell) => { cell.live = true; });
 
     return grid;
@@ -63,12 +65,12 @@ const GridSetup = {
     const grid = buildEmptyGrid(6, 6);
 
     grid
-      .filter(c => c.x === 2 || c.x === 3)
-      .filter(c => c.y === 2 || c.y === 3)
+      .filter((c) => c.x === 2 || c.x === 3)
+      .filter((c) => c.y === 2 || c.y === 3)
       .forEach((cell) => { cell.live = true; });
     grid
-      .filter(c => c.x === 4 || c.x === 5)
-      .filter(c => c.y === 4 || c.y === 5)
+      .filter((c) => c.x === 4 || c.x === 5)
+      .filter((c) => c.y === 4 || c.y === 5)
       .forEach((cell) => { cell.live = true; });
 
     return grid;
@@ -77,35 +79,35 @@ const GridSetup = {
     const grid = buildEmptyGrid(17, 17);
 
     grid
-      .filter(c => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 3))
+      .filter((c) => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 3))
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 8))
+      .filter((c) => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 8))
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 10))
+      .filter((c) => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 10))
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 15))
+      .filter((c) => ((c.x >= 5 && c.x <= 7) || (c.x >= 11 && c.x <= 13)) && (c.y == 15))
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 3))
+      .filter((c) => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 3))
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 8))
+      .filter((c) => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 8))
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 10))
+      .filter((c) => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 10))
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 15))
+      .filter((c) => ((c.y >= 5 && c.y <= 7) || (c.y >= 11 && c.y <= 13)) && (c.x == 15))
       .forEach((cell) => { cell.live = true; });
 
     return grid;
@@ -121,19 +123,19 @@ const GridSetup = {
     const grid = buildEmptyGrid(9, 5);
 
     grid
-      .filter(c => (c.x >= 2 && c.x <= 3) && c.y === 4)
+      .filter((c) => (c.x >= 2 && c.x <= 3) && c.y === 4)
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => (c.x >= 6 && c.x <= 8) && c.y === 4)
+      .filter((c) => (c.x >= 6 && c.x <= 8) && c.y === 4)
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => c.x === 3 && c.y === 2)
+      .filter((c) => c.x === 3 && c.y === 2)
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => c.x === 5 && c.y === 3)
+      .filter((c) => c.x === 5 && c.y === 3)
       .forEach((cell) => { cell.live = true; });
 
     return grid;
@@ -142,19 +144,19 @@ const GridSetup = {
     const grid = buildEmptyGrid(10, 5);
 
     grid
-      .filter(c => (c.x >= 7 && c.x <= 9) && c.y === 4)
+      .filter((c) => (c.x >= 7 && c.x <= 9) && c.y === 4)
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => c.x === 8 && c.y === 2)
+      .filter((c) => c.x === 8 && c.y === 2)
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => (c.x >= 2 && c.x <= 3) && c.y == 3)
+      .filter((c) => (c.x >= 2 && c.x <= 3) && c.y == 3)
       .forEach((cell) => { cell.live = true; });
 
     grid
-      .filter(c => c.x === 3 && c.y === 4)
+      .filter((c) => c.x === 3 && c.y === 4)
       .forEach((cell) => { cell.live = true; });
 
     return grid;
@@ -162,3 +164,4 @@ const GridSetup = {
 };
 
 export default GridSetup;
+/* eslint-disable no-param-reassign, eqeqeq */

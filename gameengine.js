@@ -9,7 +9,7 @@ const applyRules = (isLive, liveNeighbours) => {
 
 const excludeSelf = (cell, currentCell) => !(cell.x === currentCell.x && cell.y === currentCell.y);
 
-const isLive = cell => cell.live;
+const isLive = (cell) => cell.live;
 
 const includeNeighbours = (cell, currentCell) => (
   (cell.x >= currentCell.x - 1) && (cell.x <= currentCell.x + 1)
@@ -17,8 +17,8 @@ const includeNeighbours = (cell, currentCell) => (
 );
 
 const getNumberOfLiveNeighbours = (cell, currentGrid) => currentGrid
-  .filter(nc => excludeSelf(nc, cell))
-  .filter(nc => includeNeighbours(nc, cell))
+  .filter((nc) => excludeSelf(nc, cell))
+  .filter((nc) => includeNeighbours(nc, cell))
   .filter(isLive).length;
 
 const GameEngine = {

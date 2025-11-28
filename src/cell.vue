@@ -1,15 +1,15 @@
 <template>
-  <div class="cell" :style="cellStyle"></div>
+  <div class="cell" :style="cellStyle" />
 </template>
 <script>
 export default {
-  name: "Cell",
-  props: ["isLive"],
+  name: 'GameCell',
+  props: ['isLive'],
   computed: {
     cellStyle() {
-      return { backgroundColor: this.isLive ? "black" : "white" };
-    }
-  }
+      return { backgroundColor: this.isLive ? 'black' : 'white' };
+    },
+  },
 };
 </script>
 <style>
