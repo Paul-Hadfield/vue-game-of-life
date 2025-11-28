@@ -11,44 +11,35 @@ export default {
   name: 'GameGrid',
   components: { Cell },
   props: ['gameGrid'],
-  data() {
-    let cols = 0;
-    let rows = 0;
-
-    this.gameGrid.forEach((cell) => {
-      if (cell.x > cols) {
-        cols = cell.x;
-      }
-      if (cell.y > rows) {
-        rows = cell.y;
-      }
-    });
-
-    return {
-      dimensions: {
-        width: window.innerWidth,
-        height: window.innerHeight,
-        rows,
-        cols,
-      },
-    };
-  },
   computed: {
+    gridDimensions() {
+      return this.gameGrid.reduce(
+        (acc, cell) => ({
+          rows: Math.max(acc.rows, cell.y),
+          cols: Math.max(acc.cols, cell.x),
+        }),
+        { rows: 0, cols: 0 },
+      );
+    },
     gridStyle() {
+      const { rows, cols } = this.gridDimensions;
+      const viewportWidth = window.innerWidth - 100;
+      const viewportHeight = window.innerHeight;
+
       const cellSize = Math.floor(
         Math.min(
           ...[
-            ((this.dimensions.width - 100) * 0.8) / this.dimensions.cols,
-            (this.dimensions.height * 0.8) / this.dimensions.rows,
+            (viewportWidth * 0.8) / cols,
+            (viewportHeight * 0.8) / rows,
             200,
           ],
         ),
       );
 
       return {
-        width: `${this.dimensions.cols * cellSize}px`,
-        gridTemplateColumns: `repeat(${this.dimensions.cols}, ${cellSize}px)`,
-        gridTemplateRows: `repeat(${this.dimensions.rows}, ${cellSize}px)`,
+        width: `${cols * cellSize}px`,
+        gridTemplateColumns: `repeat(${cols}, ${cellSize}px)`,
+        gridTemplateRows: `repeat(${rows}, ${cellSize}px)`,
       };
     },
   },
