@@ -23,7 +23,7 @@ export default {
       this.resetGrid();
     }
     this.timer = setInterval(() => {
-      this.grid = this.grid.map((cell) => GameEngine.determineNewState(cell, this.grid));
+      this.grid = GameEngine.nextGeneration(this.grid);
     }, 1000);
   },
   beforeUnmount() {

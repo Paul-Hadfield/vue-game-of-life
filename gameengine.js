@@ -7,19 +7,28 @@ const applyRules = (isLive, liveNeighbours) => {
   return liveNeighbours === 3;
 };
 
-const excludeSelf = (cell, currentCell) => !(cell.x === currentCell.x && cell.y === currentCell.y);
+const buildLiveSet = (currentGrid) => {
+  const liveSet = new Set();
+  currentGrid.forEach((cell) => {
+    if (cell.live) {
+      liveSet.add(`${cell.x},${cell.y}`);
+    }
+  });
+  return liveSet;
+};
 
-const isLive = (cell) => cell.live;
-
-const includeNeighbours = (cell, currentCell) => (
-  (cell.x >= currentCell.x - 1) && (cell.x <= currentCell.x + 1)
-    && (cell.y >= currentCell.y - 1) && (cell.y <= currentCell.y + 1)
-);
-
-const getNumberOfLiveNeighbours = (cell, currentGrid) => currentGrid
-  .filter((nc) => excludeSelf(nc, cell))
-  .filter((nc) => includeNeighbours(nc, cell))
-  .filter(isLive).length;
+const countLiveNeighbours = (cell, liveSet) => {
+  let liveNeighbours = 0;
+  for (let dx = -1; dx <= 1; dx += 1) {
+    for (let dy = -1; dy <= 1; dy += 1) {
+      const isSelf = dx === 0 && dy === 0;
+      if (!isSelf && liveSet.has(`${cell.x + dx},${cell.y + dy}`)) {
+        liveNeighbours += 1;
+      }
+    }
+  }
+  return liveNeighbours;
+};
 
 const GameEngine = {
   setupBlinker: () => GridSetup.blinker(),
@@ -30,11 +39,14 @@ const GameEngine = {
   setupAcorn: () => GridSetup.acorn(),
   setupDiehard: () => GridSetup.diehard(),
 
-  determineNewState: (cell, currentGrid) => ({
-    x: cell.x,
-    y: cell.y,
-    live: applyRules(cell.live, getNumberOfLiveNeighbours(cell, currentGrid)),
-  }),
+  nextGeneration: (currentGrid) => {
+    const liveSet = buildLiveSet(currentGrid);
+    return currentGrid.map((cell) => ({
+      x: cell.x,
+      y: cell.y,
+      live: applyRules(cell.live, countLiveNeighbours(cell, liveSet)),
+    }));
+  },
 };
 
 export default GameEngine;
